@@ -20,10 +20,8 @@ class HandGesture(models.Model):
     f3h2 = models.FloatField(default=0)
     f4h2 = models.FloatField(default=0)
     f5h2 = models.FloatField(default=0)
-    lhbattery= models.FloatField(default=0)
-    rhbattery= models.FloatField(default=0)
-    location_altitude = models.FloatField(default=0)
-    location_latitude = models.FloatField(default=0)
+    
+
     def __str__(self):
         return self.uuid
     class Meta:
@@ -49,3 +47,12 @@ class Emergency(models.Model):
     
     class Meta:
         verbose_name_plural = "Emergency"
+        
+class Battery(models.Model):
+    lhbattery= models.FloatField(default=0)
+    rhbattery= models.FloatField(default=0)
+    def __str__(self):
+        return f'{self.lhbattery} {self.rhbattery}'
+    
+    class Meta:
+        verbose_name_plural = "Battery"
