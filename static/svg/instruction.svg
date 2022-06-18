@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="417" height="139" viewBox="0 0 417 139">
+  <g id="Group_14" data-name="Group 14" transform="translate(-6 -159)">
+    <g id="Rectangle_5" data-name="Rectangle 5" transform="translate(6 209)" fill="#e6eaec" stroke="rgba(255,176,102,0.44)" stroke-width="5" stroke-dasharray="8 16">
+      <rect width="417" height="89" rx="27" stroke="none"/>
+      <rect x="2.5" y="2.5" width="412" height="84" rx="24.5" fill="none"/>
+    </g>
+    <text id="instructions" transform="translate(88 199)" fill="#ffb066" font-size="45" font-family="BritannicBold, Britannic"><tspan x="0" y="0">instructions</tspan></text>
+    <text id="click_on_to_add_new_gestures" data-name="click on    to add new gestures" transform="translate(72 246)" fill="#355769" font-size="21" font-family="BritannicBold, Britannic"><tspan x="0" y="0" xml:space="preserve">click on    to add new gestures</tspan></text>
+    <text id="click_on_to_see_available_gestures" data-name="click on    to see available gestures" transform="translate(50 276)" fill="#355769" font-size="21" font-family="BritannicBold, Britannic"><tspan x="0" y="0" xml:space="preserve">click on    to see available gestures</tspan></text>
+    <path id="Icon_ionic-ios-hand" data-name="Icon ionic-ios-hand" d="M20.3,6.516a.949.949,0,0,0-.956.934v4.959a.4.4,0,0,1-.807,0V5.093a.957.957,0,0,0-1.913,0v5.748a.4.4,0,0,1-.807,0V4.309a.957.957,0,0,0-1.913,0v7.316a.4.4,0,0,1-.807,0V5.877a.957.957,0,0,0-1.913,0v9.9L9.923,14.7c-1.183-1.029-2.185-1.469-3-.712-.549.535.313,1.4,1.215,2.412.87.975,3.173,4.166,5.136,5.317a3.539,3.539,0,0,0,1.84.517h2.593c2.09,0,3.554-1.718,3.554-4.225V7.45A.956.956,0,0,0,20.3,6.516Z" transform="translate(118.87 254.694)"/>
+    <path id="Icon_ionic-ios-add-circle" data-name="Icon ionic-ios-add-circle" d="M13,3.375A9.625,9.625,0,1,0,22.625,13,9.624,9.624,0,0,0,13,3.375ZM17.188,13.74H13.74v3.447a.74.74,0,0,1-1.481,0V13.74H8.812a.74.74,0,0,1,0-1.481H12.26V8.812a.74.74,0,0,1,1.481,0V12.26h3.447a.74.74,0,0,1,0,1.481Z" transform="translate(143.625 227.375)"/>
+  </g>
+</svg>

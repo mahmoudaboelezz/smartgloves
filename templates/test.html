@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block body %}
+    {% comment %} <div class='container d-flex flex-column justify-content-center align-items-center'>
+        <div class='no-connection-lottie '>
+            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_nTfkVR.json" background="transparent"  speed="1"   loop  autoplay></lottie-player>
+        </div>
+        <div>
+            <p class='no-connection'>Sorry You are not connected with the Kit</p>
+        </div>
+        
+        <button class='btn check-connection shadow p-3 mt-5 rounded'>Check Connection</button>
+    </div> {% endcomment %}
+        <input type="range" name="range" id="" min='0' max='3'>
+        <input type="submit" value="test">
+
+
+
+    <p>value</p>
+
+    <p>{{ data }}</p>
+
+    <script>
+        var range = document.querySelector('input[type="range"]');
+        var value = document.querySelector('p');
+        /*range.addEventListener('input', function(e) {
+            value.innerHTML = e.target.value;
+        });*/
+        // send value to server and get response using ajax
+
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(response => response.json())
+        .then(json => console.log(json))
+
+        // get data from jsonapiholder and display it on the page
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            document.querySelector('p').innerHTML = json.title;
+        })
+        // 1 , 2 , 3 , 4 , 5 
+        
+        $(document).ready(function() {
+            $(range).change(function() {
+                $.ajax({
+                    url: '{% url "output" %}',
+                    type: 'POST',
+                    data: {
+                        'value': $(range).val()
+                    },
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        // get response from server
+                        $('p').html(data);
+                    }
+                });
+            });
+        });
+        // send get request to server and get response using ajax
+        /*$(document).ready(function() {
+            $('.check-connection').click(function() {
+                $.ajax({
+                    url: '{url of the smart gloves ip}',
+                    type: 'GET',
+                    success: function(data) {
+                        // get response from server
+                        $('p').html(data);
+                    }
+                });
+            });
+        });*/
+        function textToAudio() {
+                        let msg = document.getElementById("text-to-speech").value;
+                        let speech = new SpeechSynthesisUtterance();
+                        speech.lang = "en-US";
+                        speech.text = msg;
+                        speech.volume = 1;
+                        speech.rate = 1;
+                        speech.pitch = 1;
+                        window.speechSynthesis.speak(speech);
+                    }
+        /*document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/test/');
+            xhr.setRequestHeader('Content-Type', 'application/json','csrf_token': '{{ csrf_token }}');
+            xhr.send(JSON.stringify({
+                value: range.value
+            }));
+        });*/
+  
+
+    </script>
+    
+    <script>
+        
+        /*var range = document.querySelector('input[type="range"]');
+        var value = document.querySelector('p');
+        //range.addEventListener('input', function(e) {
+        //    value.innerHTML = range.value;
+        //});
+        // if the value stay the same for more than 2 seconds, then change the value
+        var timer;
+        range.addEventListener('input', function(e) {
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                value.innerHTML = range.value;
+            }, 500);
+        });*/
+        // user ajax to send the value to the server
+       
+    </script>
+    {% endblock body %}
+    

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block body %}
+    <div class=' output container d-flex flex-column justify-content-center align-items-center'>
+      <div class='suggestion'>
+          <img src="{% static 'svg/suggestion.svg' %}" alt="">
+        </div>
+        <br>
+        <p class="text-center">Hand 1</p>
+        <div class="row justify-content-center align-items-center">
+          {% for x in data %}
+            <input type="number" name="r1" id="" placeholder='finger1' disabled>
+            <input type="number" name="r2" id="" placeholder='finger2' disabled>
+            <input type="number" name="r3" id="" placeholder='finger3' disabled>
+            <input type="number" name="r4" id="" placeholder='finger4' disabled>
+            <input type="number" name="r5" id="" placeholder='finger5' disabled>
+            {% endfor %}
+        </div>
+        <p class="text-center mt-3">Hand 2</p>
+        <div class="row justify-content-center align-items-center">
+            <input type="number" name="r6" id="" placeholder='finger1' disabled>
+        <input type="number" name="r7" id="" placeholder='finger2' disabled>
+        <input type="number" name="r8" id="" placeholder='finger3' disabled>
+        <input type="number" name="r9" id="" placeholder='finger4' disabled>
+        <input type="number" name="r10" id="" placeholder='finger5' disabled>
+        </div>
+        <hr>
+      <div class="row">
+          <div class="col">
+              <p>Related Word old</p>
+          </div>
+          <div class="col"><input type="text" name="" id="" disabled placeholder='old word'></div>
+          <hr>
+          <div class="col">
+            <p>Related Word new</p>
+          </div>
+          <div class="col"><input type="text" name="" id=""></div>
+
+      </div>
+      <div class="row mt-3">
+          <button class="btn shadow rounded-1" id='confirm-changes'>Confirm Changes</button>
+      </div>
+    </div>
+    {% endblock body %}
+    {% block footer %}
+    <br>{% endblock footer %}
+    

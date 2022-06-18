@@ -1,0 +1,22 @@
+.speech input{
+    width: 80%;
+    align-self: center;
+    padding: 5px;
+}
+.speech label{
+    color: #FFB066;
+    text-transform: capitalize;
+    
+}
+.speech select#languages {
+    padding: 5px;
+    color: #0B295D;
+    text-transform: capitalize;
+}
+.speech button.btn{
+    align-self: center;
+    color: #0B295D;
+    text-transform: capitalize;
+    background-color: #EAB54B;
+    width: 90%;
+}

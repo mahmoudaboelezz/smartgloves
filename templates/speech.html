@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block body %}
+    <div class='container speech'>
+       
+       <div class="reading d-flex flex-column align-items-center">
+        <label for="output" class='fs-1'>Reading</label>
+        <br>
+        <input type="text" name="" id="output" value='Word' disabled>
+
+        <hr>
+    </div>
+    <div class="obourlogo d-flex justify-content-center mb-5">
+        <img src="{% static 'svg/obourlogo.svg' %}" alt="">
+    </div>
+       <div class="d-flex  align-items-center justify-content-around">
+            <label for="languages">translate to:</label>
+             <select name="languages" id="languages">
+                 <option value="english">english</option>
+                 <option value="french">french</option>
+                 <option value="spanish">spanish</option>
+                 <option value="german">german</option>
+                 <option value="italian">italian</option>
+                </select>
+ 
+        </div>
+        <br>
+        <div class="d-flex flex-column justify-content-center">
+
+            <input type="text" name="" id="" disabled>
+            <br>
+       <button class='btn'>translate</button>
+        </div>
+       
+    </div>
+    
+    {% endblock body %}
+    

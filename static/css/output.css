@@ -1,0 +1,27 @@
+.output input[type="number"]{
+    width: 30%;
+}
+.output input[type="number"]::placeholder{
+    opacity: 40%;
+}
+.suggestion img{
+    height: 32vh;
+}
+
+.output input{
+    margin: 3px;
+    height: 35px;
+    width: auto;
+    border: 1px solid #99caad1c;
+    border-radius: 10px;
+}
+#confirm-changes{
+    background-color: #eab54b;
+    color: #0B295D;
+
+}
+#confirm-changes:hover, #confirm-changes:focus, #confirm-changes:active{
+    background-color: #99CAAD;
+    color: #0B295D;
+
+}

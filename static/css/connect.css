@@ -1,0 +1,14 @@
+.no-connection-lottie{
+    width: 300px;
+}
+.check-connection{
+    background-color: #99CAAD;
+    color: #0B295D;
+}
+.check-connection:hover, .check-connection:active, .check-connection:focus{
+    background-color: #FFB066;
+    
+}
+.no-connection{
+    color: #E6EAEC;
+}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block body %}
+<div class="container position-relative">
+    {% comment %} <div class='menu position-absolute top-0 end-0'>
+        <img src="{% static 'svg/menu.svg' %}" alt="">
+    </div> {% endcomment %}
+    <div class='instruction d-flex justify-content-center'>
+        <img  src="{% static 'svg/instruction.svg' %}" alt="">
+    </div>
+    <div class="introduction d-flex justify-content-center">
+        <p class='text-center mt-4 p-3 w-74 text-white'>mute system for deaf people to help them
+            to communicate with others by gestures
+            and this application working as speaker
+            and screen for the words .</p>
+    </div>
+
+    <div class="obourlogo d-flex justify-content-center">
+        <img src="{% static 'svg/obourlogo.svg' %}" alt="">
+    </div>
+    <div class="prof row mt-4 justify-content-center">
+        <p class='text-center'>Prof Dr/Ibrahim Fathy Tarrad</p>
+    </div>
+    <div class="team row justify-content-center">
+        <div class="col-1"></div>
+        <div class="col-2 our-team d-flex justify-content-center align-items-center">
+            <p>OUR TEAM</p>
+        </div>
+        <div class="col team-members">
+            {% for member in members %}
+                <span>
+                    {{member.name}}
+                </span>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+    {% endblock body %}

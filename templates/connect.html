@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block body %}
+    <div class='container d-flex flex-column justify-content-center align-items-center'>
+        <div class='no-connection-lottie '>
+            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_nTfkVR.json" background="transparent"  speed="1"   loop  autoplay></lottie-player>
+        </div>
+        <div>
+            <p class='no-connection'>Sorry You are not connected with the Kit</p>
+        </div>
+        
+        <button class='btn check-connection shadow p-3 mt-5 rounded'>Check Connection</button>
+    </div>
+    {% endblock body %}
+    

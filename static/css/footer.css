@@ -1,0 +1,13 @@
+footer{
+    margin-top: 10px;
+    width: 100%;
+}
+footer h6{
+    text-align: center;
+    color: #0B295D;
+    font-weight: bold;
+}
+footer h6 span{
+    font-size: 120%;
+    color: #ff5100;
+}
