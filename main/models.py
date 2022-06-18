@@ -12,6 +12,8 @@ class Names(models.Model):
 class HandGesture(models.Model):
     # we have 10 resistors in both hands detected by the glove to be able to detect the gesture
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    gesture_name = models.CharField(max_length=200,help_text="Enter the gesture name")
+    # gesture_image = models.ImageField(upload_to='gesture_images/', blank=True)
     f1h1 = models.IntegerField(default=0)
     f2h1 = models.IntegerField(default=0)
     f3h1 = models.IntegerField(default=0)
@@ -26,7 +28,7 @@ class HandGesture(models.Model):
 
     def __str__(self):
         # only show the first 5 digits of the uuid
-        return str(self.uuid)[:5]
+        return f'{self.gesture_name} {self.f1h1} {self.f2h1} {self.f3h1} {self.f4h1} {self.f5h1} {self.f1h2} {self.f2h2} {self.f3h2} {self.f4h2} {self.f5h2}'
     class Meta:
         verbose_name_plural = "Hand Gesture"
         

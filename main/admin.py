@@ -21,8 +21,8 @@ class RelatedWordInline(admin.StackedInline):
 
 class HandGestureAdmin(admin.ModelAdmin):
     inlines = [RelatedWordInline, EmergencyInline, ResetInline]
-    list_display = ('uuid', 'f1h1', 'f2h1', 'f3h1', 'f4h1', 'f5h1', 'f1h2', 'f2h2', 'f3h2', 'f4h2', 'f5h2')
-    
+    list_display = ('gesture_name','uuid', 'f1h1', 'f2h1', 'f3h1', 'f4h1', 'f5h1', 'f1h2', 'f2h2', 'f3h2', 'f4h2', 'f5h2','__str__')
+    search_fields = ('uuid', 'f1h1', 'f2h1', 'f3h1', 'f4h1', 'f5h1', 'f1h2', 'f2h2', 'f3h2', 'f4h2', 'f5h2','gesture_name')
     class Meta:
         verbose_name_plural = "HandGesture"
 
