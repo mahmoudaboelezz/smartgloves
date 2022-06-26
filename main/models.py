@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 
+
 # Create your models here.
 class Names(models.Model):
     name = models.CharField(max_length=200)
@@ -12,7 +13,7 @@ class Names(models.Model):
 class HandGesture(models.Model):
     # we have 10 resistors in both hands detected by the glove to be able to detect the gesture
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    gesture_name = models.CharField(max_length=200,help_text="Enter the gesture name")
+    # gesture_name = models.CharField(max_length=200,help_text="Enter the gesture name")
     # gesture_image = models.ImageField(upload_to='gesture_images/', blank=True)
     f1h1 = models.IntegerField(default=0)
     f2h1 = models.IntegerField(default=0)
@@ -24,25 +25,27 @@ class HandGesture(models.Model):
     f3h2 = models.IntegerField(default=0)
     f4h2 = models.IntegerField(default=0)
     f5h2 = models.IntegerField(default=0)
+    accelerometer = models.IntegerField(default=0)
+    related_word = models.CharField(max_length=200, help_text="Enter the related word")
     
 
     def __str__(self):
         # only show the first 5 digits of the uuid
-        return f'{self.gesture_name} {self.f1h1} {self.f2h1} {self.f3h1} {self.f4h1} {self.f5h1} {self.f1h2} {self.f2h2} {self.f3h2} {self.f4h2} {self.f5h2}'
+        return f' {self.f1h1} {self.f2h1} {self.f3h1} {self.f4h1} {self.f5h1} {self.f1h2} {self.f2h2} {self.f3h2} {self.f4h2} {self.f5h2} , {self.accelerometer} , {self.related_word}'
     class Meta:
         verbose_name_plural = "Hand Gesture"
         
-class RelatedWord(models.Model):
-    # can be related to signle foreign key
-    word = models.CharField(max_length=200)
-    handgesture = models.OneToOneField(HandGesture, on_delete=models.CASCADE)
+# class RelatedWord(models.Model):
+#     # can be related to signle foreign key
+#     word = models.CharField(max_length=200)
+#     handgesture = models.OneToOneField(HandGesture, on_delete=models.CASCADE)
 
     
-    def __str__(self):
-        return self.word
+#     def __str__(self):
+#         return self.word
     
-    class Meta:
-        verbose_name_plural = "Related Word"
+#     class Meta:
+#         verbose_name_plural = "Related Word"
         
 class Emergency(models.Model):
     send_location = models.BooleanField(default=False)

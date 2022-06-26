@@ -1,5 +1,7 @@
 from django.urls import include, path
 from . import views
+from rest_framework import routers
+
 
 urlpatterns = [
     path('', views.homepage, name='home'),
@@ -9,4 +11,5 @@ urlpatterns = [
     path('setting/', views.setting, name='setting'),
     path('location/', views.location, name='location'),
     path('test/', views.test, name='test'),
+    
 ]

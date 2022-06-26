@@ -16,8 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import  include
+from rest_framework.routers import DefaultRouter
+from django.db import router
+from main.views import viewsets_handgesture
+
+router = DefaultRouter()
+router.register('HandGesture', viewsets_handgesture)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
+    path('api/', include(router.urls)),
 ]
