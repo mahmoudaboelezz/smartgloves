@@ -1,0 +1,157 @@
+
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+#include <ArduinoJson.h>
+/*Put your SSID & Password*/
+const char* ssid = "aboelezz6";  // Enter SSID here
+const char* password = "0552820197ezz";  //Enter Password here
+
+ESP8266WebServer server(80);
+void handleRoot() {
+  String webPage;
+  
+  // Allocate JsonBuffer
+  // Use arduinojson.org/assistant to compute the capacity.
+  StaticJsonBuffer<500> jsonBuffer;
+
+  // Create the root object
+  JsonObject& root = jsonBuffer.createObject();
+
+  root["ADC"] = 7000; //Put Sensor value
+  root["KEY"] = digitalRead(0); //Reads Flash Button Status
+
+  root.printTo(webPage);  //Store JSON in String variable
+  server.send(200, "text/html", webPage);
+}
+   
+uint8_t LEDpin = D4;
+bool LEDstatus = LOW;
+int test = 240; 
+
+void setup() {
+  Serial.begin(115200);
+  delay(100);
+  pinMode(LEDpin, OUTPUT);
+
+  Serial.println("Connecting to ");
+  Serial.println(ssid);
+
+  //connect to your local wi-fi network
+  WiFi.begin(ssid, password);
+
+  //check wi-fi is connected to wi-fi network
+  while (WiFi.status() != WL_CONNECTED) {
+  delay(1000);
+  Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected..!");
+  Serial.print("Got IP: ");  Serial.println(WiFi.localIP());
+
+  server.on("/", handle_OnConnect);
+  server.on("/read", handleRoot);
+  server.on("/ledon", handle_ledon);
+  server.on("/ledoff", handle_ledoff);
+  server.onNotFound(handle_NotFound);
+
+  server.begin();
+  Serial.println("HTTP server started");
+}
+void loop() {
+  
+  server.handleClient();
+  if(LEDstatus)
+  digitalWrite(LEDpin, HIGH);
+  else
+  digitalWrite(LEDpin, LOW);
+}
+
+void handle_OnConnect() {
+  LEDstatus = LOW;
+  server.send(200, "text/html", SendHTML(false)); 
+}
+
+void handle_ledon() {
+  LEDstatus = HIGH;
+  server.send(200, "text/html", SendHTML(true)); 
+}
+
+void handle_ledoff() {
+  LEDstatus = LOW;
+  server.send(200, "text/html", SendHTML(false)); 
+}
+
+void handle_NotFound(){
+  server.send(404, "text/plain", "Not found");
+}
+
+String SendHTML(uint8_t led){
+  String ptr = "<!DOCTYPE html>\n";
+  ptr +="<html>\n";
+  ptr +="<head>\n";
+  ptr +="<title>LED Control</title>\n";
+  ptr +="</head>\n";
+  ptr +="<body>\n";
+  ptr +="    <style>\n"
+"        .container{\n"
+"            display: flex;\n"
+"            align-items: center;\n"
+"            justify-content: center;\n"
+"            justify-items: center;\n"
+"        }\n"
+"        .card{\n"
+"            margin: 20px;\n"
+"            width: 400px;\n"
+"            height: 100vh;\n"
+"        }\n"
+"        .card h1{\n"
+"            font-size: 24px;\n"
+"        }\n"
+"        .card h2{\n"
+"            font-size: 16px;\n"
+"        }\n"
+"        .display{\n"
+"            width: 200px;\n"
+"            height: 50px;\n"
+"            border: 1px solid black;\n"
+"            align-self: center;\n"
+"        }\n"
+"    </style>";
+  ptr +="<p>Click to switch LED on and off.</p>\n";
+  
+  ptr +="<form method=\"get\">\n";
+  if(led)
+  ptr +="<input type=\"button\" value=\"LED OFF\" onclick=\"window.location.href='/ledoff'\">\n";
+  else
+  ptr +="<input type=\"button\" value=\"LED ON\" onclick=\"window.location.href='/ledon'\">\n";
+  ptr +="</form>\n";
+  ptr +=" <div class='container'><div class='card'><h1>speaking system for mute people</h1><h3 id=\"test\">test2</h3><hr><h2>read</h2><div class='display'></div><h2>word</h2><div class='display speech'></div><br><button>speech</button></div> </div> \n";
+  ptr +="<div><input type=\"text\" id=\"text-to-speech\" placeholder=\"Enter text to speak...\"/></div>\n"
+"        <div><button type=\"button\" onclick=\"textToAudio()\">Speak</button></div>\n"
+"        <br/>\n"
+"        <div><small><b>NOTE:</b> Enter text and click on speak button.</small></div>\n"
+"\t\t<script>\n"
+"\t\t\t/* JS comes here */\n"
+"            function textToAudio() {\n"
+"                let msg = document.getElementById(\"text-to-speech\").value;\n"
+"                \n"
+"                let speech = new SpeechSynthesisUtterance();\n"
+"                speech.lang = \"en-US\";\n"
+"                \n"
+"                speech.text = msg;\n"
+"                speech.volume = 1;\n"
+"                speech.rate = 1;\n"
+"                speech.pitch = 1;\n"
+"                \n"
+"                window.speechSynthesis.speak(speech);\n"
+"test = 2;"
+"a = document.getElementById(\"test\");\n"
+"        a.innerText = test"
+"            }\n"
+"\t\t</script>";
+
+  ptr +="</body>\n";
+  ptr +="</html>\n";
+  return ptr;
+}
