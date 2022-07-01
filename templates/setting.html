@@ -6,10 +6,33 @@
             <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_nTfkVR.json" background="transparent"  speed="1"   loop  autoplay></lottie-player>
         </div>
         <div>
-            <p class='no-connection'>Sorry You are not connected with the Kit</p>
+            {% comment %} <p class='no-connection'>Sorry You are not connected with the Kit</p> {% endcomment %}
         </div>
-        
-        <button class='btn check-connection shadow p-3 mt-5 rounded'>Check Connection</button>
+        <form action="" method='post'>
+            {% csrf_token %}
+            <label for="getnewnode">IP of nodemcu</label>
+            <input type="text" name="newnode" id="getnewnode" class='center'>
+            <br>
+            <div class="row">
+
+                <button class='btn check-connection shadow p-3 mt-5 rounded'>Check Connection</button>
+            </div>
+        </form>
+        <br>
+        <hr>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label for="node">Select language of the image</label>
+            <select name="lang" id="node" class='form-control'>
+                
+                <option value="ar">عربي</option>
+                <option value="en">English</option>
+               </select>
+            <div class="row">
+                <button class='btn upload-file shadow p-3 mt-5 rounded btn-dark'>Upload File</button>
+            </div>
+        </form>
     </div>
     {% endblock body %}
     

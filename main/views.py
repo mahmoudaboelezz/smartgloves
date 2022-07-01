@@ -1,21 +1,30 @@
 
+import imp
 import json
 from urllib import response
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from rest_framework import viewsets
 
 from .serializer import HandGestureSerializer
 from .models import *
 import requests
 from django.http import JsonResponse
-
+from .forms import ReadImagesForm
+import pyocr
 # Create your views here.
 def homepage(request):
     members = Names.objects.all()
     return render(request, 'home.html',{'members':members , })
 
 def connect(request):
-    return render(request, 'connect.html')
+    site = 'https://youtu.be/dQw4w9WgXcQ'
+    check = requests.get(site)
+    if check.status_code == 200:
+        return render(request, 'connect.html',{'site':site})
+    else:
+        return render(request, 'connect.html')
+    
+    
 
 def output(request):
     if request.method == 'GET':
@@ -27,15 +36,49 @@ def output(request):
 
 def speech(request):
     # query in models.related_word to get the related words
-    if request.method == 'GET':
-        data = request.POST.get('value')
-        lookup = HandGesture.objects.filter(word__icontains=data)
-        return JsonResponse({'data':lookup})
-        
-    return render(request, 'speech.html')
+    # if request.method == 'GET':
+    #     data = request.POST.get('value')
+    #     lookup = HandGesture.objects.filter()
+    #     return JsonResponse({'data':lookup})
+        # translate the word from arabic to english
+        word = request.POST.get('value')
+        print(word)
+        if word :
+            import pyttsx3
+            engine = pyttsx3.init()
+            engine.say(word)
+            engine.runAndWait()
+            return JsonResponse({'data':word})
+        return render(request, 'speech.html')
 
 def setting(request):
-    return render(request, 'setting.html')
+    
+    ####################
+    nodeip = NodeMcu.objects.get(id=1)
+    getnewnode = request.POST.get('newnode')
+    
+    form = ReadImagesForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+        # get image after saving it
+        lang = request.POST.get('lang')
+        image = Read_images.objects.last()
+        read = pyocr.ocrtest(image.image, lang)
+        # convert the array to string
+        str1 = ''
+        for i in read:
+            str1 += i + ' '
+        print(str1)
+        # add str1 to the database
+        Read_images.objects.filter(id=image.id).update(text=str1)
+        return redirect('/setting/')
+    if getnewnode:
+        print(getnewnode)
+        nodeip.ip_address = getnewnode
+        nodeip.save()
+        return redirect('/speech')
+        
+    return render(request, 'setting.html',{'nodeip':nodeip, 'form':form})
 
 def location(request):
 #     # get location on map longitude and latitude
@@ -78,10 +121,17 @@ class viewsets_handgesture(viewsets.ModelViewSet):
         # get data from form
         print(f'{self.request.GET},req')
         
-        data = HandGesture.objects.filter(accelerometer=self.request.GET.get('accelerometer'),f1h1=self.request.GET.get('f1h1')
-                                          ,f2h1=self.request.GET.get('f2h1'),f3h1=self.request.GET.get('f3h1'),f4h1=self.request.GET.get('f4h1'),f5h1=self.request.GET.get('f5h1')
-                                          ,f1h2=self.request.GET.get('f1h2'),f2h2=self.request.GET.get('f2h2'),f3h2=self.request.GET.get('f3h2')
-                                          ,f4h2=self.request.GET.get('f4h2'),f5h2=self.request.GET.get('f5h2'))
+        data = HandGesture.objects.filter(accelerometer=self.request.GET.get('accelerometer'),
+                                          f1h1=self.request.GET.get('f1h1')
+                                          ,f2h1=self.request.GET.get('f2h1')
+                                          ,f3h1=self.request.GET.get('f3h1')
+                                          ,f4h1=self.request.GET.get('f4h1')
+                                          ,f5h1=self.request.GET.get('f5h1')
+                                          ,f1h2=self.request.GET.get('f1h2')
+                                          ,f2h2=self.request.GET.get('f2h2'),
+                                          f3h2=self.request.GET.get('f3h2')
+                                          ,f4h2=self.request.GET.get('f4h2')
+                                          ,f5h2=self.request.GET.get('f5h2'))
                                           
         # print the related_word in data
         for i in data:
@@ -90,6 +140,7 @@ class viewsets_handgesture(viewsets.ModelViewSet):
             
         # only return the word
         return data
+    
 
 
 

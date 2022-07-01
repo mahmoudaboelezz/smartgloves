@@ -6,8 +6,55 @@
        <div class="reading d-flex flex-column align-items-center">
         <label for="output" class='fs-1'>Reading</label>
         <br>
-        <input type="text" name="" id="output" value='Word' disabled>
-
+        <input type="text" name="" id="output" value='Word' >
+        <script>
+            //generate random words from the list
+            list = ['ahmed','بحبك','ali']
+            //get data from nodemcu by ajax request and add it to the list
+            $.ajax({
+                url: 'http://localhost:3000/',
+                type: 'GET',
+                success: function(data){
+                    //todo
+                }
+            })
+            function randomWord(){
+                var random = Math.floor(Math.random()*list.length)
+                document.getElementById('output').value = list[random]
+                //textToAudio(list[random])
+            }
+            // run the function every 2 seconds
+            setInterval(randomWord,2000)
+            function textToAudio(msg) {
+                
+                
+                let speech = new SpeechSynthesisUtterance();
+                // if the msg in english, use the english voice
+                 function isEnglish(str) {
+                    return /[a-z]/.test(str);
+                }
+                if(isEnglish(msg)){
+                    speech.lang = 'en-US';
+                }else{
+                    speech.lang = 'ar-SA';
+                    
+                }
+                //speech.lang = 'ar-SA';
+               
+                
+                speech.text = msg;
+                speech.volume = 1;
+                speech.rate = 1;
+                speech.pitch = 1;
+                
+               window.speechSynthesis.speak(speech);
+            }
+          $(document).ready(function(){
+              $('#output').on('change',function(){
+                  textToAudio($(this).val());
+              });
+          });
+        </script>
         <hr>
     </div>
     <div class="obourlogo d-flex justify-content-center mb-5">
@@ -16,8 +63,8 @@
        <div class="d-flex  align-items-center justify-content-around">
             <label for="languages">translate to:</label>
              <select name="languages" id="languages">
-                 <option value="english">english</option>
-                 <option value="french">french</option>
+                 <option value="en">english</option>
+                 <option value="fr">french</option>
                  <option value="spanish">spanish</option>
                  <option value="german">german</option>
                  <option value="italian">italian</option>
@@ -27,12 +74,42 @@
         <br>
         <div class="d-flex flex-column justify-content-center">
 
-            <input type="text" name="" id="" disabled>
+            <input type="text" name="" id="translated" disabled>
             <br>
-       <button class='btn'>translate</button>
+       <button class='btn' id=translate>translate</button>
         </div>
-       
+       {% comment %} <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name='value'>
+        <input type="submit" value="" id='speechout'>
+       </form> {% endcomment %}
+       <script>
+        var value = $('input[name="value"]').val();
+        // send ajax request to speak
+        
+       </script>
     </div>
-    
+    <script> </script>
+    <script>
+        // define google translate API key
+        var apiKey = 'AIzaSyD-9ZQZQZQZQZQZQZQZQZQZQZQZQZQZQZQZQ';
+        // define google translate API url
+        var apiUrl = 'https://translation.googleapis.com/language/translate/v2?key=' + apiKey;
+        // define google translate API language codes
+        
+        
+        google.load("language", "1");
+        $(document).ready(function(){
+            $('#translate').click(function(){
+                var language = $('#languages').val();
+                console.log(language);
+                var text = $('#output').val();
+                var output = $('#translated');
+                var translation = google.language.translate(text, language);
+                output.val(translation.translatedText);
+            });
+        });
+        
+    </script>
     {% endblock body %}
     

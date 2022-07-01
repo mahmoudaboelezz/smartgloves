@@ -26,7 +26,7 @@ class HandGesture(models.Model):
     f4h2 = models.IntegerField(default=0)
     f5h2 = models.IntegerField(default=0)
     accelerometer = models.IntegerField(default=0)
-    related_word = models.CharField(max_length=200, help_text="Enter the related word")
+    related_word = models.CharField(max_length=400, help_text="Enter the related word", blank=True)
     
 
     def __str__(self):
@@ -34,7 +34,9 @@ class HandGesture(models.Model):
         return f' {self.f1h1} {self.f2h1} {self.f3h1} {self.f4h1} {self.f5h1} {self.f1h2} {self.f2h2} {self.f3h2} {self.f4h2} {self.f5h2} , {self.accelerometer} , {self.related_word}'
     class Meta:
         verbose_name_plural = "Hand Gesture"
-        
+    
+    # on save, update if read_images has text remove related word
+   
 # class RelatedWord(models.Model):
 #     # can be related to signle foreign key
 #     word = models.CharField(max_length=200)
@@ -50,8 +52,7 @@ class HandGesture(models.Model):
 class Emergency(models.Model):
     send_location = models.BooleanField(default=False)
     emergency_number = models.CharField(max_length=100, default='911')
-    # location_altitude = models.IntegerField(default=0)
-    # location_latitude = models.IntegerField(default=0)
+
     HandGesture = models.OneToOneField(HandGesture, on_delete=models.CASCADE)
     def __str__(self):
         return f'{self.emergency_number} {self.HandGesture}'
@@ -76,3 +77,47 @@ class Reset(models.Model):
     
     class Meta:
         verbose_name_plural = "Reset"
+        
+class NodeMcu(models.Model):
+    # only contain ip adress once 
+    ip_address = models.CharField(max_length=100)
+    def __str__(self):
+        return self.ip_address
+    
+    
+    
+class Read_images(models.Model):
+    # only contain ip adress once 
+    HandGesture = models.OneToOneField(HandGesture, on_delete=models.CASCADE,blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True)
+    text = models.CharField(max_length=400, default='', blank=True)
+    def __str__(self):
+        return f'{self.image} {self.text}'
+    
+    class Meta:
+        verbose_name_plural = "Read_images"
+    
+    # if save go update handgesture with text
+    def save(self, *args, **kwargs):
+    # go delete old handgesture
+        # old = Read_images.objects.get(pk=self.pk)
+        # if old.HandGesture:
+        #     old.HandGesture.related_word = ''
+        #     old.HandGesture.save()
+        if self.HandGesture:
+            self.HandGesture.related_word = self.text
+            self.HandGesture.save()
+            
+        super(Read_images, self).save(*args, **kwargs)
+        
+    # if change handgesture reset text of handgesture
+    def delete(self, *args, **kwargs):
+        if self.HandGesture:
+            self.HandGesture.related_word = ''
+            self.HandGesture.save()
+        super(Read_images, self).delete(*args, **kwargs)
+    
+
+    
+        
+    
