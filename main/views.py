@@ -1,6 +1,7 @@
 
 import imp
 import json
+from time import sleep
 from urllib import response
 from django.shortcuts import redirect, render
 from rest_framework import viewsets
@@ -41,15 +42,17 @@ def speech(request):
     #     lookup = HandGesture.objects.filter()
     #     return JsonResponse({'data':lookup})
         # translate the word from arabic to english
-        word = request.POST.get('value')
-        print(word)
-        if word :
-            import pyttsx3
-            engine = pyttsx3.init()
-            engine.say(word)
-            engine.runAndWait()
-            return JsonResponse({'data':word})
-        return render(request, 'speech.html')
+        # word = request.POST.get('value')
+        # print(word)
+        # if word :
+        #     import pyttsx3
+        #     engine = pyttsx3.init()
+        #     engine.say(word)
+        #     engine.runAndWait()
+        #     return JsonResponse({'data':word})
+    
+        
+    return render(request, 'speech.html')
 
 def setting(request):
     
@@ -64,6 +67,7 @@ def setting(request):
         lang = request.POST.get('lang')
         image = Read_images.objects.last()
         read = pyocr.ocrtest(image.image, lang)
+        print(read)
         # convert the array to string
         str1 = ''
         for i in read:
@@ -100,12 +104,29 @@ def location(request):
 
 def test(request):
     # print result from ajax request
-    if request.method == 'POST':
-        # get data from ajax request and add it to context
-        data = request.POST.get('value')
-        print(data)
-        from django.http import JsonResponse
-        return JsonResponse({'data':data+'test'})
+    if request.method == 'GET':
+        url = 'http://192.168.1.45/read'
+        request = requests.get(url)
+        # send the data to the ajax request
+        data = request.json()
+        # print the key of 'f1h2' in the data
+        print(data['f1h1'], data['f2h1'],data['f3h1'],data['f4h1'],data['f5h1'],data['f1h2'],data['f2h2'],data['f3h2'],data['f4h2'],data['f5h2'],data['gyro'])
+        # check if the data is the same as the previous data
+        list = [data['f1h1'], data['f2h1'],data['f3h1'],data['f4h1'],data['f5h1'],data['f1h2'],data['f2h2'],data['f3h2'],data['f4h2'],data['f5h2'],data['gyro']]
+        if data['f1h1'] == list[0] and data['f2h1'] == list[1] and data['f3h1'] == list[2] and data['f4h1'] == list[3] and data['f5h1'] == list[4] and data['f1h2'] == list[5] and data['f2h2'] == list[6] and data['f3h2'] == list[7] and data['f4h2'] == list[8] and data['f5h2'] == list[9] and data['gyro'] == list[10]:
+            sleep(.5)
+            data['f1h1'] = list[0] and data['f2h1'] == list[1] and data['f3h1'] == list[2] and data['f4h1'] == list[3] and data['f5h1'] == list[4] and data['f1h2'] == list[5] and data['f2h2'] == list[6] and data['f3h2'] == list[7] and data['f4h2'] == list[8] and data['f5h2'] == list[9] and data['gyro'] == list[10]
+            print('same')
+        related_word = HandGesture.objects.filter(f1h1=data['f1h1'], f2h1=data['f2h1'],f3h1=data['f3h1'],f4h1=data['f4h1'],f5h1=data['f5h1'],f1h2=data['f1h2'],f2h2=data['f2h2'],f3h2=data['f3h2'],f4h2=data['f4h2'],f5h2=data['f5h2'],accelerometer=data['gyro'])
+        if related_word:
+            print(related_word[0].related_word)
+            return JsonResponse({'data':related_word[0].related_word})
+        else:
+            return JsonResponse({'data':'not found'})
+        # print(related_word[0].related_word)
+        # # print(related_word)
+        # return JsonResponse({'data':related_word[0].related_word})
+        
 
     return render(request, 'test.html')
 

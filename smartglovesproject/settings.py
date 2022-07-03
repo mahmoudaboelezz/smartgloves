@@ -26,9 +26,10 @@ SECRET_KEY = 'django-insecure-qh&l34tx(x*l)t&)o4e6_086t!%ti1w^gzgu3d5xeb%225_7eh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.5', 'localhost', '127.0.0.1','45.242.168.96','132.226.135.107','45.242.12.172']
-
-
+ALLOWED_HOSTS = ['192.168.1.5', 'localhost', '127.0.0.1','45.242.168.96','132.226.135.107','45.242.12.172','192.168.1.148','192.168.244.184']
+# cross_origin_allow_all_origins = True
+# corss_origin_allow_all_headers = True
+CROSS_ORIGIN_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'rest_framework',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'smartglovesproject.urls'

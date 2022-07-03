@@ -1,30 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
-    {% block body %}
-    <div class='container speech'>
+{% block body %}
+<div class='container speech'>
        
-       <div class="reading d-flex flex-column align-items-center">
+    <div class="reading d-flex flex-column align-items-center">
         <label for="output" class='fs-1'>Reading</label>
         <br>
-        <input type="text" name="" id="output" value='Word' >
+        <input type="text" name="" id="output"  >
+        <button id='start'>press me</button>
         <script>
-            //generate random words from the list
-            list = ['ahmed','بحبك','ali']
+            //generate random words from the lis
             //get data from nodemcu by ajax request and add it to the list
-            $.ajax({
-                url: 'http://localhost:3000/',
-                type: 'GET',
-                success: function(data){
-                    //todo
-                }
-            })
-            function randomWord(){
-                var random = Math.floor(Math.random()*list.length)
-                document.getElementById('output').value = list[random]
-                //textToAudio(list[random])
-            }
-            // run the function every 2 seconds
-            setInterval(randomWord,2000)
+            
+            setInterval(getnode,1000);
             function textToAudio(msg) {
                 
                 
@@ -49,12 +37,54 @@
                 
                window.speechSynthesis.speak(speech);
             }
-          $(document).ready(function(){
-              $('#output').on('change',function(){
-                  textToAudio($(this).val());
-              });
-          });
+                
+            
+            function getnode(){
+                console.log('get node');
+                
+                
+                // check if the output is changed
+                
+                
+                $.ajax({
+                    url:'{% url 'test' %}',
+                    type:'GET',
+                    success:function(data){
+                        // dont change the output if it is the same
+                        if(data.data != $('#output').val()){
+                            console.log('output changed');
+                            data.data == 'not found' ? console.log('not found')  : textToAudio(data.data);
+                            
+                        }
+                        // if data didnt change for .5 seconds,print it
+                        
+                        data.data == 'not found' ? console.log('not found'):$('#output').val(data.data);
+                        $('#output').on('change',function(){
+                            console.log('click');
+                            textToAudio($(this).val());
+                        });
+                        
+                        
+                    },
+                   
+                })
+            }
+            
+            
+          
         </script>
+        {% comment %} <script>
+            $(document).ready(function(){
+                console.log('ready')
+                $.ajax({
+                    url:'{% url 'test' %}',
+                    type:'GET',
+                    success:function(data){
+                        console.log(data)
+                    }
+                })
+            });
+        </script> {% endcomment %}
         <hr>
     </div>
     <div class="obourlogo d-flex justify-content-center mb-5">
