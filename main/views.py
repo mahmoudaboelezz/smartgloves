@@ -120,13 +120,18 @@ def test(request):
         related_word = HandGesture.objects.filter(f1h1=data['f1h1'], f2h1=data['f2h1'],f3h1=data['f3h1'],f4h1=data['f4h1'],f5h1=data['f5h1'],f1h2=data['f1h2'],f2h2=data['f2h2'],f3h2=data['f3h2'],f4h2=data['f4h2'],f5h2=data['f5h2'],accelerometer=data['gyro'])
         if related_word:
             print(related_word[0].related_word)
-            return JsonResponse({'data':related_word[0].related_word})
+            return JsonResponse({'data':related_word[0].related_word,'longitude':data['long'],'latitude':data['lat']})
         else:
             return JsonResponse({'data':'not found'})
         # print(related_word[0].related_word)
         # # print(related_word)
         # return JsonResponse({'data':related_word[0].related_word})
-        
+    if request.method == 'POST':
+        url = 'http://192.168.235.135/read'
+        request = requests.get(url)
+        data = request.json()
+        print(data['long'], data['lat'])
+        return JsonResponse({'data':data['long'], 'data2':data['lat']})
 
     return render(request, 'test.html')
 

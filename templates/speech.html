@@ -103,11 +103,15 @@
         </div>
         <br>
         <div class="d-flex flex-column justify-content-center">
-
-            <input type="text" name="" id="translated" disabled>
+            <h3 class='text-white'>longitude and latitude</h3>
+            <label for="long">longitude</label>
+            <input type="text" name="" id="long" disabled>
+            <label for="lat">latitude</label>
+            <input type="text" name="" id="lat" disabled>
             <br>
-       <button class='btn' id=translate>translate</button>
         </div>
+
+     
        {% comment %} <form action="" method="post">
         {% csrf_token %}
         <input type="text" name='value'>
@@ -118,6 +122,14 @@
         // send ajax request to speak
         
        </script>
+    </div>
+    <div class="row">
+
+        <form action="" method='POST'>
+            
+            <input type="submit" value="get location" name='getlocation' class='btn btn-secondary' >
+            
+        </form>
     </div>
     <script> </script>
     <script>
