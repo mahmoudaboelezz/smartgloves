@@ -105,7 +105,7 @@ def location(request):
 def test(request):
     # print result from ajax request
     if request.method == 'GET':
-        url = 'http://192.168.1.45/read'
+        url = 'http://192.168.235.135/read'
         request = requests.get(url)
         # send the data to the ajax request
         data = request.json()
@@ -171,5 +171,5 @@ class viewsets_handgesture(viewsets.ModelViewSet):
 
 
 
-
+#test
     
